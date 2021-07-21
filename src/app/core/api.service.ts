@@ -32,4 +32,28 @@ export class ApiService {
   getMainUser(token: any): Observable<any> {
     return this.httpClient.get<any>(`${this.baseUrl}` + '/main', AppUtils.OPTIONS_OBJECTO);
   }
+
+  getAccessToken(refreshToken: any): Observable<any> {
+    const params = new HttpParams()
+    .set('grant_type', 'refresh_token')
+    .set('refresh_token', refreshToken);
+
+    const options = {
+      headers: AppUtils.HEADERS_COMMUN,
+      params
+    };
+
+    return this.httpClient.post(AppUtils.URL_TOKEN, null, options);
+  }
+
+  isAuthenticated(): Observable<boolean> {
+    return new Observable<boolean>(observer => {
+      if (JSON.parse(localStorage.getItem('currentUser') || '')) {
+        observer.next(true);
+        observer.complete();
+      } else {
+        observer.next(false);
+      }
+    });
+  }
 }
