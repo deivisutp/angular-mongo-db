@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 
 import * as AppUtils from '../shared/common/app.utils';
 import { UserLogin } from './model/login';
+import { UserDTO } from './model/userDTO';
 
 @Injectable({
   providedIn: 'root'
@@ -55,5 +56,33 @@ export class ApiService {
         observer.next(false);
       }
     });
+  }
+
+  registerUser(user: UserDTO): Observable<any> {
+    return this.httpClient.post<any>(AppUtils.REGISTER_URL, user, {headers: AppUtils.HEADERS_COMMUN});
+  }
+
+  confirmationRegisterToken(token: string): Observable<any> {
+    const params = new HttpParams()
+      .set('token', token);
+
+    const options = {
+      headers: AppUtils.HEADERS_COMMUN,
+      params
+    };
+
+    return this.httpClient.get<any>(AppUtils.CONFIRM_REGISTER_URL, options);
+  }
+
+  resendRegisterToken(user: UserDTO): Observable<any> {
+    const params = new HttpParams()
+      .set('email', user.email || '');
+
+    const options = {
+      headers: AppUtils.HEADERS_COMMUN,
+      params
+    };
+
+    return this.httpClient.get<any>(AppUtils.RESEND_REGISTER_TOKEN_URL, options);
   }
 }
