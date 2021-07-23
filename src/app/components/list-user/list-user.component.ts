@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { ApiService } from 'src/app/core/api.service';
+import { UserDTO } from 'src/app/core/model/userDTO';
 
 @Component({
   selector: 'app-list-user',
@@ -7,9 +10,31 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ListUserComponent implements OnInit {
 
-  constructor() { }
+  users: UserDTO[] = [];
 
-  ngOnInit(): void {
+  constructor(private router: Router,
+              private apiService: ApiService) { }
+
+  ngOnInit() {
+    if (this.apiService.isAuthenticated()) {
+      return this.router.navigate(['login']);
+    }
+    this.apiService.getUsers().subscribe(users => {
+      this.users = users;
+    }, error => {
+      console.log('Error ao pegar lista de usuários', error);
+    });
   }
 
+  getRole(user: UserDTO) {
+    return this.apiService.getRole(user.roles || []);
+  }
+
+  deleteUser(user: UserDTO): void {
+    this.apiService.deleteUser(user.id).subscribe(() => {
+      this.users = this.users.filter(u => u.id != user.id);
+    }, error => {
+      console.log('Erro ao deletar usuário', error);
+    });
+  }
 }

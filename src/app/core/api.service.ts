@@ -85,4 +85,22 @@ export class ApiService {
 
     return this.httpClient.get<any>(AppUtils.RESEND_REGISTER_TOKEN_URL, options);
   }
+
+  getUsers(): Observable<any> {
+    return this.httpClient.get<any>(`${this.baseUrl}`, AppUtils.OPTIONS_OBJECTO);
+  }
+
+  getRole(roles: Array<any>) {
+    let role: any;
+    if (this.isAuthenticated() && roles && roles.length > 0) {
+      roles.forEach(item => {
+        role = item.name;
+      })
+    }
+    return role;
+  }
+
+  deleteUser(id?: string): Observable<any> {
+    return this.httpClient.delete<any>(`${this.baseUrl}/${id}`, AppUtils.OPTIONS_OBJECTO);
+  }
 }
