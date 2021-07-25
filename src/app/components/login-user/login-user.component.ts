@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ApiService } from 'src/app/core/api.service';
+import { MessageService } from 'src/app/core/message.service';
 import { UserLogin } from 'src/app/core/model/login';
 
 @Component({
@@ -12,7 +13,9 @@ export class LoginUserComponent implements OnInit {
 
   user = new UserLogin();
 
-  constructor(private apiService: ApiService, private router: Router) { }
+  constructor(private apiService: ApiService,
+              private messageService: MessageService,
+              private router: Router) { }
 
   ngOnInit(): void {}
 
@@ -20,7 +23,8 @@ export class LoginUserComponent implements OnInit {
     this.apiService.login(this.user).subscribe(data => {
       this.loginSuccess(data);
     }, error => {
-      console.log("Erro ao fazer login");
+      this.messageService.showError('Login', 'Falha de autenticação');
+      console.log("Erro ao fazer login",error);
     });
   }
 
@@ -30,8 +34,10 @@ export class LoginUserComponent implements OnInit {
     localStorage.setItem('refreshToken', data.refresh_token);
     this.apiService.getMainUser(localStorage.getItem('accessToken')).subscribe(user => {
       this.redirectPage(user);
+      this.messageService.showSuccess('Bem Vindo', 'Bem vindo a tela inicial!');
     }, error => {
-      console.log("Erro ao pegar usuário logado.");
+      console.log("Erro ao pegar usuário logado.", error);
+      this.messageService.showError('Usuário principal', 'Falha ao carregar usuário principal');
     });
   }
 

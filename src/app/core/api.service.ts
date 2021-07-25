@@ -50,6 +50,10 @@ export class ApiService {
 
   isAuthenticated(): Observable<boolean> {
     return new Observable<boolean> (observer => {
+      if (!localStorage.getItem('currentUser')){
+        observer.next(false);
+      }
+
       if (JSON.parse(localStorage.getItem('currentUser') || '')) {
         observer.next(true);
         observer.complete();
