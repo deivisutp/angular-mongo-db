@@ -1,7 +1,8 @@
+import { UserDTO } from 'src/app/core/model/userDTO';
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { ApiService } from 'src/app/core/api.service';
+import { Router } from '@angular/router';
 import { MessageService } from 'src/app/core/message.service';
 
 @Component({
@@ -10,26 +11,31 @@ import { MessageService } from 'src/app/core/message.service';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
-
+  users!: UserDTO[];
   constructor(private apiService: ApiService,
               private router: Router,
               private messageService: MessageService) { }
 
-  ngOnInit(): void {
+  ngOnInit() {
+    if (!this.apiService.isAuthenticated()) {
+      this.router.navigate(['login']);
+    }
+    this.apiService.getUsers().subscribe(users => {
+      this.users = users;
+    }, error => {
+      this.messageService.showError('Lista de usuários', 'Falha ao carregar a lista de usuários');
+    });
   }
-
   logout() {
     this.apiService.logout().subscribe(() => {
       this.clearLocalStore();
       this.messageService.showSuccess('Logout', 'Logout realizado com sucesso');
-      this.router.navigate(['login']);
+      this.router.navigate(['/']);
     }, error => {
-      console.log("Erro ao fazer logout.", error);
       this.messageService.showError('Logout', 'Error ao tentar fazer logout');
     });
   }
-
-  clearLocalStore() {
+  clearLocalStore () {
     localStorage.removeItem('accessToken');
     localStorage.removeItem('refreshToken');
     localStorage.removeItem('currentUser');
@@ -38,5 +44,4 @@ export class HeaderComponent implements OnInit {
   isAutenticated(): Observable<boolean> {
     return this.apiService.isAuthenticated();
   }
-
 }

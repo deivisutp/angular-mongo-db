@@ -7,20 +7,27 @@ import { RegisterUserComponent } from './components/register-user/register-user.
 import { ResendRegistrationTokenComponent } from './components/resend-registration-token/resend-registration-token.component';
 import { WelcomeComponent } from './components/welcome/welcome.component';
 import { AuthGuard } from './core/guards/auth.guard';
+import { HomeComponent } from './components/home/home.component';
+import { RegisterConfirmationComponent } from './components/register-user/register-confirmation.component';
+import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
+import { ChechIdUserTokenComponent } from './components/change-password/check-iduser-token.component';
+import { ChangePasswordComponent } from './components/change-password/change-password.component';
+import { Page404Component } from './shared/components/page404/page404.component';
 
 const routes: Routes = [
-  {path : '', component : LoginUserComponent},
+  { path : '', component : HomeComponent},
    { path: 'login', component: LoginUserComponent },
    { path: 'register-user', component: RegisterUserComponent },
+   { path: 'register-confirmation', component: RegisterConfirmationComponent },
    { path: 'resend-register-token', component: ResendRegistrationTokenComponent },
-   { path: 'welcome', component: WelcomeComponent,  canActivate: [AuthGuard],
-      canLoad: [AuthGuard]},
-   { path: 'list-user', component: ListUserComponent,  canActivate: [AuthGuard],
-   canLoad: [AuthGuard] },
-   { path: 'edit-user/:id', component: EditUserComponent,  canActivate: [AuthGuard],
-   canLoad: [AuthGuard] }
+   { path: 'reset-password', component: ResetPasswordComponent },
+   { path: 'change-password', component: ChechIdUserTokenComponent },
+   { path: 'save-password/:id', component: ChangePasswordComponent },
+   { path: 'welcome', component: WelcomeComponent, canActivate: [AuthGuard], canLoad: [AuthGuard]  },
+   { path: 'list-user', component: ListUserComponent, canActivate: [AuthGuard], canLoad: [AuthGuard]  },
+   { path: 'edit-user/:id', component: EditUserComponent, canActivate: [AuthGuard], canLoad: [AuthGuard]  },
+   { path: '**', component: Page404Component }
   ];
-
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

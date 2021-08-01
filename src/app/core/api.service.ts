@@ -48,6 +48,33 @@ export class ApiService {
 
   }
 
+  resetPassword(email: string): Observable<any> {
+    return this.httpClient.post<any>(`${AppUtils.RESET_PASSWORD + '?email=' + email}`, {headers: AppUtils.HEADERS_COMMUN});
+  }
+
+  changePassword(idUser: string, tokenUser: string): Observable<any> {
+    console.log('testst')
+    const params = new HttpParams()
+      .set('id', idUser)
+      .set('token', tokenUser);
+    const options = {
+        headers: AppUtils.HEADERS_COMMUN,
+        params
+      };
+    return this.httpClient.get<any>(`${AppUtils.CHANGE_PASSWORD}`, options);
+}
+
+savePassword(password: string, token: string): Observable<any> {
+  const params = new HttpParams()
+  .set('token', token)
+  .set('password', password);
+  const options = {
+      headers: AppUtils.HEADERS_COMMUN,
+      params
+    };
+  return this.httpClient.post<any>(AppUtils.SAVE_PASSWORD, null, options);
+}
+
   isAuthenticated(): Observable<boolean> {
     return new Observable<boolean> (observer => {
       if (!localStorage.getItem('currentUser')){

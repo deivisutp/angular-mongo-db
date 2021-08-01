@@ -24,3 +24,8 @@ export const HEADERS_LOGIN = new HttpHeaders({
  export const HEADERS_COMMUN = new HttpHeaders({
  Authorization: 'Basic ' + btoa('cliente' + ':' + '123')
  });
+
+
+ export const RESET_PASSWORD = BASE_URL + 'api/public/';
+ export const CHANGE_PASSWORD = BASE_URL + 'api/public/';
+ export const SAVE_PASSWORD = BASE_URL + 'api/public/';

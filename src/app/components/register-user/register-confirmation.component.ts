@@ -6,10 +6,10 @@ import { MessageService } from 'src/app/core/message.service';
 
 @Component({
   selector: 'app-register-user',
-  templateUrl: `
-    <div class="view overlay zoom">
-      <p class="white-text">Verificando solicitação de registro de usuário</p>
-    </div>
+  template: `
+        <div class="view overlay zoom">
+            <p class="white-text">Verificando solicitação de registro de usuário</p>
+        </div>
   `
 })
 export class RegisterConfirmationComponent implements OnInit {

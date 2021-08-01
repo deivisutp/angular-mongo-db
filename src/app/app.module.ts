@@ -1,7 +1,11 @@
+import { Page404Component } from './shared/components/page404/page404.component';
+import { HomeComponent } from './components/home/home.component';
+import { ChechIdUserTokenComponent } from './components/change-password/check-iduser-token.component';
+import { ChangePasswordComponent } from './components/change-password/change-password.component';
+import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
+import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { MDBBootstrapModule } from 'angular-bootstrap-md';
-
-import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -14,13 +18,14 @@ import { WelcomeComponent } from './components/welcome/welcome.component';
 import { HeaderComponent } from './shared/components/navigation/header/header.component';
 import { DeleteUserModalComponent } from './shared/components/modals/delete-user-modal/delete-user-modal.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { ApiService } from './core/api.service';
 import { InterceptorService } from './core/interceptor.service';
 import { AuthGuard } from './core/guards/auth.guard';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { MessageService } from './core/message.service';
+import { RegisterConfirmationComponent } from './components/register-user/register-confirmation.component';
 
 @NgModule({
   declarations: [
@@ -32,28 +37,35 @@ import { MessageService } from './core/message.service';
     ListUserComponent,
     WelcomeComponent,
     HeaderComponent,
-    DeleteUserModalComponent
+    DeleteUserModalComponent,
+    RegisterConfirmationComponent,
+    ResetPasswordComponent,
+    ChangePasswordComponent,
+    ChechIdUserTokenComponent,
+    HomeComponent,
+    Page404Component
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     MDBBootstrapModule.forRoot(),
     HttpClientModule,
-    ReactiveFormsModule,
-    FormsModule,
+    ReactiveFormsModule, FormsModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot({
       timeOut: 4000,
       positionClass: 'toast-top-center'
-    })
+      })
+
   ],
   providers: [ApiService, AuthGuard, MessageService,
     {
-      provide: HTTP_INTERCEPTORS,
-      useClass: InterceptorService,
-      multi: true
+    provide: HTTP_INTERCEPTORS,
+    useClass: InterceptorService,
+    multi : true
     }
-  ],
+    ],
+
   bootstrap: [AppComponent]
 })
 export class AppModule { }
