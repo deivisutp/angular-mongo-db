@@ -37,9 +37,5 @@ Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.
 
 ---
 
-<a href="https://www.linkedin.com/in/deivis-utpadel-2b2b7948/">
-<img src="./github/linkedin.png" alt="linkedin" height="50"></a>
-<br />
-
 Linkedin: (https://www.linkedin.com/in/deivis-utpadel-2b2b7948/)
 
